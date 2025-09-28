@@ -26,6 +26,7 @@ import JobApplicationForm from '../components/landing/ApplyJob';
 import ApplicantView from '../components/dashboard/recruitment/ApplicantView';
 import ClientManagement from '../pages/dashboard/ClientManagement';
 import NationalFiguresDashboard from '../pages/dashboard/National_Figures';
+import Nopevertymanagement from '../pages/dashboard/Nopevertymanagement';
 
 const ProductPage = lazy(() => import('../pages/landing/FeaturesPage'));
 const ServicesPage = lazy(() => import('../pages/landing/ServicePage'));
@@ -202,6 +203,14 @@ const routes = createBrowserRouter([
                 element: (
                   <SuspenseWrapper>
                     <EmployeeDashboard />
+                  </SuspenseWrapper>
+                ),
+              },
+                {
+                path: 'nopoverty-management',
+                element: (
+                  <SuspenseWrapper>
+                    <Nopevertymanagement />
                   </SuspenseWrapper>
                 ),
               },

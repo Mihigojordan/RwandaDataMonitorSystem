@@ -2,13 +2,12 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AdminModule } from './modules/admin-management/admin.module';
 import { PrismaModule } from './prisma/prisma.module';
-import { DepartmentModule } from './modules/department/department.module';
 
 import { EmailModule } from './global/email/email.module';
 
 
-import { ActivityModule } from './modules/activity-management/activity.module';
 import { NationalFiguresModule } from './modules/National_Figures/national-figures.module';
+import { NoPovertyTargetModule } from './modules/No-poverty-management/no-poverty-target.module';
 
 @Module({
   imports: [
@@ -18,8 +17,8 @@ import { NationalFiguresModule } from './modules/National_Figures/national-figur
 
     EmailModule,
 
-    ActivityModule,
-    NationalFiguresModule
+    NationalFiguresModule,
+    NoPovertyTargetModule
   ],
   controllers: [AppController],
 })

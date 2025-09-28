@@ -45,3 +45,16 @@ model NationalFigure {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
+
+
+model NoPovertyTarget {
+  id                String   @id @default(uuid())
+  targetName        String
+  targetDescription String?
+  targetPercentage  Float?
+  source            String?
+  trend             Json?     // [{year: 2020, percentage: 20}, ...]
+  map               Json?     // [{year: 2020, location: "Region A", povertyRate: 15}, ...]
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
