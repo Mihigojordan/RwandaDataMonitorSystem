@@ -24,6 +24,7 @@ model Admin {
   status       AdminStatus    @default(ACTIVE)
   google_id    String?
   is2FA   Boolean? @default(false)
+  activity Activity[]
   isLocked   Boolean? @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -44,4 +45,61 @@ model NationalFigure {
   quarter        Int
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+}
+
+
+model Department {
+  id          String     @id @unique @default(uuid())
+  name        String?
+  description String?    @db.VarChar(1000)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Activity {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  dueDate     DateTime?
+  createdAt   DateTime @default(now())
+
+  adminId     String?   // must match Admin.id type
+
+  admin       Admin?    @relation(fields: [adminId], references: [id])
+ 
+}
+
+
+
+model GPDRecord {
+  id                  String   @id @default(uuid())
+  year               Int
+  quarter            Quarter
+  amountBillionRwf   Float
+  isActive           Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@unique([year, quarter])
+}
+
+enum Quarter {
+  Q1
+  Q2
+  Q3
+  Q4
+}
+
+
+model GPDShareBySector {
+  id           String   @id @default(uuid())
+  year        Int      @unique
+  totalGDP    Float
+  service     Float
+  agriculture Float
+  tax         Float
+  industry    Float
+  isActive    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

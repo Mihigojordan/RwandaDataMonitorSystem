@@ -38,6 +38,7 @@ export default function GDPDetails() {
         </TouchableOpacity>
       </View>
 
+
       {/* Logo and Title */}
       <View style={styles.logoSection}>
         <View style={styles.logoContainer}>

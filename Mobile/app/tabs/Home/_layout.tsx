@@ -12,6 +12,7 @@ export default function HomeLayout() {
       <Stack.Screen name="index" />               {/* HomeMain */}
       <Stack.Screen name="NationalFigures" />    {/* Hidden subpage */}
       <Stack.Screen name="RwandaSDGs" />         {/* Hidden subpage */}
+      <Stack.Screen name="(GDP_Form)" />         {/* Hidden subpage */}
     </Stack>
   );
 }

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Modal, FlatList, 
 import { PieChart, BarChart } from 'react-native-chart-kit';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'expo-router';
 
 const { width } = Dimensions.get('window');
 
@@ -224,6 +225,8 @@ export default function GDPStructure() {
           <Text style={styles.totalUnit}>Billion USD</Text>
         </View>
       </View>
+
+      <Link href={'/tabs/Home/(GDP_Form)'}>insert</Link>
 
       <View style={styles.chartSection}>
         <Text style={styles.chartTitle}>GDP Growth by Sector (5-Year Trend)</Text>
