@@ -34,7 +34,7 @@ export default function NoPovertyScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://192.168.1.44:8000/no-poverty-targets');
+        const response = await axios.get('http://172.20.10.2:8000/no-poverty-targets');
         const apiData = response.data;
 
         const validData = apiData.filter(

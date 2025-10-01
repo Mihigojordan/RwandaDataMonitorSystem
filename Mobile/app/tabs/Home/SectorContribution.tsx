@@ -31,7 +31,7 @@ export default function SectorContribution() {
 
   const fetchGDPData = async () => {
     try {
-      const response = await fetch('http://192.168.1.44:8000/gdp-growth-by-sector-at-constant-price');
+      const response = await fetch('http://172.20.10.2:8000/gdp-growth-by-sector-at-constant-price');
       const result = await response.json();
       if (result && result.length > 0) {
         setData(result[0]);

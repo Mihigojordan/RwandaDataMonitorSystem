@@ -18,7 +18,7 @@ export default function CurrentGDPDistribution() {
   }, []);
 const fetchGDPData = async () => {
   try {
-    const response = await fetch('http://192.168.1.44:8000/gdp-shares');
+    const response = await fetch('http://172.20.10.2:8000/gdp-shares');
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

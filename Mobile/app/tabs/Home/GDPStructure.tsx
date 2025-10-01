@@ -19,7 +19,7 @@ export default function RwandaGDPCurrentPrice() {
   const fetchGDPData = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://192.168.1.44:8000/gdp-current-price');
+      const response = await fetch('http://172.20.10.2:8000/gdp-current-price');
       
       if (!response.ok) {
         throw new Error('Failed to fetch GDP data');
