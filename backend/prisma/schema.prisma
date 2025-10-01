@@ -58,3 +58,39 @@ model NoPovertyTarget {
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 }
+
+model GdpCurrentPrice {
+  id          String   @id @default(uuid())
+  lastYear    Json?    // optional for migration
+  currentYear Json?    // optional for migration
+  trends      Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+model GdpShare {
+  id               String   @id @default(uuid())
+  totalGdp         Float    // Total GDP in some unit (e.g., billions USD)
+  servicesShare    Float    // Percentage share of Services
+  industryShare    Float    // Percentage share of Industry
+  agricultureShare Float    // Percentage share of Agriculture
+  taxesShare       Float    // Percentage share of Taxes
+  privateSector    Float?   // Private sector value (not part of GDP share)
+  governmentSector Float?   // Government sector value (not part of GDP share)
+  imports          Float?   // Imports value (not part of GDP share)
+  exports          Float?   // Exports value (not part of GDP share)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model GdpGrowthBySectorAtConstantPrice {
+  id                   String   @id @default(cuid())
+  totalGdp             Float
+  servicesShare        Float
+  industryShare        Float
+  agricultureShare     Float
+  taxesShare           Float
+  servicesSubShares    Json
+  agricultureSubShares Json
+  industrySubShares    Json
+}
+

@@ -8,6 +8,10 @@ import { EmailModule } from './global/email/email.module';
 
 import { NationalFiguresModule } from './modules/National_Figures/national-figures.module';
 import { NoPovertyTargetModule } from './modules/No-poverty-management/no-poverty-target.module';
+import { GdpCurrentPriceModule } from './modules/gdpcurrentprice/gdp-current-price.module';
+import { GdpShareModule } from './modules/GdpShareBySector/gdp-share.module';
+import { GdpGrowthBySectorAtConstantPriceService } from './modules/GdpGrowthBySectorAtConstantPrice/gdp-growth-by-sector-at-constant-price.service';
+import { GdpGrowthBySectorAtConstantPriceModule } from './modules/GdpGrowthBySectorAtConstantPrice/gdp-growth-by-sector-at-constant-price.module';
 
 @Module({
   imports: [
@@ -18,7 +22,10 @@ import { NoPovertyTargetModule } from './modules/No-poverty-management/no-povert
     EmailModule,
 
     NationalFiguresModule,
-    NoPovertyTargetModule
+    NoPovertyTargetModule,
+    GdpCurrentPriceModule,
+    GdpShareModule,
+    GdpGrowthBySectorAtConstantPriceModule
   ],
   controllers: [AppController],
 })

@@ -27,6 +27,9 @@ import ApplicantView from '../components/dashboard/recruitment/ApplicantView';
 import ClientManagement from '../pages/dashboard/ClientManagement';
 import NationalFiguresDashboard from '../pages/dashboard/National_Figures';
 import Nopevertymanagement from '../pages/dashboard/Nopevertymanagement';
+import GDPDashboard from '../pages/dashboard/gdpcurrentprice';
+import GDPFiguresDashboard from '../pages/dashboard/gdpcurrentprice';
+import GDPSharesData from '../pages/dashboard/GDPSharesData';
 
 const ProductPage = lazy(() => import('../pages/landing/FeaturesPage'));
 const ServicesPage = lazy(() => import('../pages/landing/ServicePage'));
@@ -199,10 +202,10 @@ const routes = createBrowserRouter([
                 ),
               },
               {
-                path: 'employee-management',
+                path: 'gdp-current-price',
                 element: (
                   <SuspenseWrapper>
-                    <EmployeeDashboard />
+                   <GDPFiguresDashboard />
                   </SuspenseWrapper>
                 ),
               },
@@ -215,10 +218,10 @@ const routes = createBrowserRouter([
                 ),
               },
               {
-                path: 'employee-management/:id',
+                path: 'GDPSharesData',
                 element: (
                   <SuspenseWrapper>
-                    <ViewEmployee />
+                  <GDPSharesData />
                   </SuspenseWrapper>
                 ),
               },

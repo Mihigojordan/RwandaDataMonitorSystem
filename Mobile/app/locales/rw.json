@@ -140,6 +140,16 @@
         "construction": "Ubwubatsi",
         "food_manufacturing": "Gutunganya Ibiryo",
         "textiles_clothing_leather_goods": "Imyenda, Imyambaro n'Ibyo mu Kawa"
+    },
+    "gdp_current_price": {
+        "title": "GDP mu Miliyoni za RWF ku isoko",
+        "loading": "Gutangiza amakuru ya GDP...",
+        "error": "Ikosa: {error}",
+        "no_data": "Nta makuru ya GDP aboneka",
+        "retry_button": "Ongera ugerageze",
+        "see_trends_button": "Reba ibyerekezo",
+        "modal_title": "Ibyerekezo by'ukuza kwa GDP",
+        "close_button": "Funga",
+        "chart_y_axis_suffix": "M"
     }
-
 }

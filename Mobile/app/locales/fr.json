@@ -140,6 +140,17 @@
         "construction": "Construction",
         "food_manufacturing": "Fabrication alimentaire",
         "textiles_clothing_leather_goods": "Textiles, vêtements et articles en cuir"
+    },
+    "gdp_current_price": {
+        "title": "PIB en millions de RWF au prix du marché",
+        "loading": "Chargement des données du PIB...",
+        "error": "Erreur : {error}",
+        "no_data": "Aucune donnée du PIB disponible",
+        "retry_button": "Réessayer",
+        "see_trends_button": "Voir les tendances",
+        "modal_title": "Tendances de la croissance du PIB",
+        "close_button": "Fermer",
+        "chart_y_axis_suffix": "M"
     }
 
 }

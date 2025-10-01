@@ -140,6 +140,17 @@
         "construction": "Construction",
         "food_manufacturing": "Food Manufacturing",
         "textiles_clothing_leather_goods": "Textiles, Clothing & Leather Goods"
+    },
+    "gdp_current_price": {
+        "title": "GDP in Millions RWF at Market Price",
+        "loading": "Loading GDP data...",
+        "error": "Error: {error}",
+        "no_data": "No GDP data available",
+        "retry_button": "Retry",
+        "see_trends_button": "See trends",
+        "modal_title": "GDP Growth Trends",
+        "close_button": "Close",
+        "chart_y_axis_suffix": "M"
     }
 
 }

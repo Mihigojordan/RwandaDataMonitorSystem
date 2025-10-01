@@ -11,8 +11,11 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import GDPStructure from './GDPStructure';
-import GDPGrowthSectors from './GDPGrowthSectors';
+
+
+import CurrentGDPDistribution from './CurrentGDPDistribution';
+import RwandaGDPCurrentPrice from './gg';
+import SectorContribution from './SectorContribution';
 
 export default function GDPDetails() {
   const { t } = useTranslation();
@@ -66,7 +69,10 @@ export default function GDPDetails() {
         </View>
       </View>
       <ScrollView>
-      <GDPStructure />
+      <RwandaGDPCurrentPrice />
+      <CurrentGDPDistribution />
+     
+    <SectorContribution />
       </ScrollView>
 
       

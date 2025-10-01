@@ -45,10 +45,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => {
       path: "/admin/dashboard/national-figures-management",
     },
     {
-      id: "recruiting",
-      label: "Recruiting Management",
+      id: "gdp-current-price",
+      label: "gdp At current price",
       icon: Briefcase,
-      path: "/admin/dashboard/recruiting-management",
+      path: "/admin/dashboard/gdp-current-price",
     },
     {
       id: "employees",
@@ -63,10 +63,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => {
       path: "/admin/dashboard/nopoverty-management",
     },
     {
-      id: "clients",
-      label: "Clients Management",
+      id: "GDPSharesData",
+      label: "GDPSharesData",
       icon: User2,
-      path: "/admin/dashboard/client-management",
+      path: "/admin/dashboard/GDPSharesData",
     },
   ];
 
