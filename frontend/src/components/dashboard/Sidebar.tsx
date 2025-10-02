@@ -307,14 +307,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = true, onToggle }) => {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-gray-900 truncate">
-                {user?.full_name || "Admin User"}
+                {user?.adminName || "Admin User"}
               </p>
               <p className="text-xs text-gray-500 truncate">
-                {user?.email || "admin@example.com"}
+                {user?.adminEmail || "admin@example.com"}
               </p>
-              <p className="text-xs text-primary-600 font-medium">
-                {user?.role?.name || "No Role"}
-              </p>
+              
             </div>
           </div>
         </div>
