@@ -31,7 +31,7 @@ export default function SectorContribution() {
 
   const fetchGDPData = async () => {
     try {
-      const response = await fetch('http://172.20.10.2:8000/gdp-growth-by-sector-at-constant-price');
+      const response = await fetch('http://192.168.1.44:8000/gdp-growth-by-sector-at-constant-price');
       const result = await response.json();
       if (result && result.length > 0) {
         setData(result[0]);
@@ -169,8 +169,7 @@ export default function SectorContribution() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.mainTitle}>{t('sectors.title', 'GDP by Sector')}</Text>
-        <Text style={styles.subtitle}>{t('sectors.subtitle', 'Economic Contribution Analysis')}</Text>
+        <Text style={styles.mainTitle}>{t('sectors.title', 'GDP Growth By Sectors At Constant Price ')}</Text>
       </View>
 
    
@@ -309,12 +308,12 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     backgroundColor: 'white',
     borderRadius: 24,
-    padding: 24,
+    padding: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.12,
     shadowRadius: 16,
-    elevation: 10,
+    elevation: 8,
   },
   centerContent: {
     justifyContent: 'center',
@@ -333,19 +332,16 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   header: {
-    marginBottom: 24,
+    marginBottom: 12,
   },
   mainTitle: {
-    fontSize: 28,
+    fontSize: 17, 
+    padding:6,
     fontWeight: '800',
     color: '#111827',
-    marginBottom: 4,
+    marginBottom: 2,
   },
-  subtitle: {
-    fontSize: 14,
-    color: '#6B7280',
-    fontWeight: '500',
-  },
+ 
   totalGdpCard: {
     flexDirection: 'row',
     alignItems: 'center',

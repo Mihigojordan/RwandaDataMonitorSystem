@@ -18,12 +18,10 @@ export default function NationalFigures() {
   const router = useRouter();
 
   const indicators = [
-    { id: 'gdp', titleKey: 'grossDomesticProduct', value: '5,798', unit: 'bn RWF', period: '2025 Q2', icon: 'trending-up', route: 'GDPDetails' },
+    { id: 'gdp', titleKey: 'grossDomesticProduct', value: '5,798', unit: 'bn RWF', period: '2025 Q2', icon: 'stats-chart', route: 'GDPDetails' },
     { id: 'population', titleKey: 'residentialPopulation', value: '13.2M', unit: 'people', period: '2024 Est.', icon: 'people', route: 'PopulationDetails' },
-    { id: 'cpi', titleKey: 'consumerPriceIndex', value: '102.1', unit: 'index points', period: '2025 Q2', icon: 'stats-chart', route: 'CPIDetails' },
+    { id: 'cpi', titleKey: 'consumerPriceIndex', value: '102.1', unit: 'index points', period: '2025 Q2', icon: 'cart', route: 'CPIDetails' },
     { id: 'employment', titleKey: 'employeeToPopulationRatio', value: '83.2%', unit: 'ratio', period: '2024', icon: 'briefcase', route: 'EmploymentDetails' },
-    { id: 'exports', titleKey: 'totalExports', value: '1,250', unit: 'mn USD', period: '2024', icon: 'boat', route: 'ExportsDetails' },
-    { id: 'lifeExpectancy', titleKey: 'lifeExpectancy', value: '69.1', unit: 'years', period: '2024', icon: 'heart', route: 'LifeExpectancyDetails' },
   ];
 
   const filteredIndicators = indicators.filter(indicator =>
@@ -96,7 +94,10 @@ export default function NationalFigures() {
               activeOpacity={0.8}
             >
               <View style={styles.cardContent}>
-                <View style={styles.iconContainer}>
+                <View style={[
+                  styles.iconContainer,
+                  { backgroundColor: index === 0 ? 'rgba(255, 255, 255, 0.3)' : '#E3F2FD' }
+                ]}>
                   <Ionicons 
                     name={indicator.icon} 
                     size={48} 
@@ -151,7 +152,14 @@ const styles = StyleSheet.create({
   indicatorsList: { paddingBottom: 20 },
   indicatorCard: { width: '100%', borderRadius: 16, padding: 20, marginBottom: 16, elevation: 4 },
   cardContent: { alignItems: 'center', justifyContent: 'center' },
-  iconContainer: { marginBottom: 15, alignItems: 'center' },
+  iconContainer: { 
+    width: 70, 
+    height: 70, 
+    borderRadius: 35, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    marginBottom: 15 
+  },
   indicatorTitle: { fontSize: 22, fontWeight: 'bold', marginBottom: 12, textAlign: 'center', lineHeight: 26 },
   indicatorValue: { fontSize: 32, fontWeight: 'bold', marginBottom: 8, textAlign: 'center' },
   indicatorPeriod: { fontSize: 16, fontWeight: '600', textAlign: 'center' },

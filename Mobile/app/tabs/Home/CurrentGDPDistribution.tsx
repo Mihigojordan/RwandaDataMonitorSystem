@@ -16,30 +16,29 @@ export default function CurrentGDPDistribution() {
   useEffect(() => {
     fetchGDPData();
   }, []);
-const fetchGDPData = async () => {
-  try {
-    const response = await fetch('http://172.20.10.2:8000/gdp-shares');
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+  const fetchGDPData = async () => {
+    try {
+      const response = await fetch('http://192.168.1.44:8000/gdp-shares');
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Fetched GDP data:', data);
+
+      if (Array.isArray(data) && data.length > 0) {
+        setGdpData(data[0]);
+      } else {
+        setGdpData(data);
+      }
+    } catch (error) {
+      console.error('Error fetching GDP data:', error);
+    } finally {
+      setLoading(false);
     }
-
-    const data = await response.json(); // ✅ parse JSON body
-    console.log('Fetched GDP data:', data);
-
-    if (Array.isArray(data) && data.length > 0) {
-      setGdpData(data[0]); // ✅ works if your API returns an array
-    } else {
-      setGdpData(data);    // ✅ fallback if your API returns an object
-    }
-  } catch (error) {
-    console.error('Error fetching GDP data:', error);
-  } finally {
-    setLoading(false);
-  }
-};
-
-
+  };
 
   const sectors = gdpData ? [
     { name: 'Services', percentage: gdpData.servicesShare, color: '#1E3A8A', icon: 'office-building' },
@@ -249,14 +248,14 @@ const fetchGDPData = async () => {
           <CircularProgress
             percentage={gdpData.privateSector}
             color="#8B5CF6"
-            icon="domain"
+            icon="bank"
             label="Private Sector"
             value={((gdpData.privateSector / 100) * gdpData.totalGdp).toFixed(0)}
           />
           <CircularProgress
             percentage={gdpData.governmentSector}
             color="#EC4899"
-            icon="office-building"
+            icon="account-balance"
             label="Government"
             value={((gdpData.governmentSector / 100) * gdpData.totalGdp).toFixed(0)}
           />
@@ -265,14 +264,14 @@ const fetchGDPData = async () => {
           <CircularProgress
             percentage={gdpData.exports}
             color="#10B981"
-            icon="export"
+            icon="bank-transfer-out"
             label="Exports"
             value={((gdpData.exports / 100) * gdpData.totalGdp).toFixed(0)}
           />
           <CircularProgress
             percentage={gdpData.imports}
             color="#EF4444"
-            icon="import"
+            icon="bank-transfer-in"
             label="Imports"
             value={((gdpData.imports / 100) * gdpData.totalGdp).toFixed(0)}
           />
@@ -353,8 +352,6 @@ const fetchGDPData = async () => {
           </View>
         </View>
       </Modal>
-
-
     </View>
   );
 }
@@ -427,61 +424,61 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowRadius: 8,
   },
-  pieChartCenterTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#6B7280',
+  pieChartCenterTitle: { 
+    fontSize: 16, 
+    fontWeight: '600', 
+    color: '#374151',
   },
-  pieChartCenterValue: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  pieChartCenterValue: { 
+    fontSize: 20, 
+    fontWeight: 'bold', 
     color: '#1E3A8A',
   },
-  pieChartCenterUnit: {
-    fontSize: 10,
-    color: '#9CA3AF',
+  pieChartCenterUnit: { 
+    fontSize: 12, 
+    color: '#6B7280',
   },
   legendContainer: {
-    marginTop: 20,
+    flexDirection: 'column',
     width: '100%',
+    marginTop: 16,
+    gap: 8,
   },
   legendItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
-    paddingHorizontal: 16,
+    justifyContent: 'space-between',
+    paddingVertical: 6,
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#E5E7EB',
   },
   legendColor: {
-    width: 16,
-    height: 16,
-    borderRadius: 4,
-    marginRight: 12,
+    width: 14,
+    height: 14,
+    borderRadius: 3,
+    marginRight: 10,
   },
   legendText: {
     flex: 1,
-    fontSize: 14,
-    color: '#374151',
+    fontSize: 15,
     fontWeight: '600',
+    color: '#374151',
   },
   legendPercentage: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#1F2937',
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#1E3A8A',
   },
   metricsSection: {
-    marginTop: 24,
-    paddingTop: 24,
-    borderTopWidth: 1,
-    borderTopColor: '#E5E7EB',
+    marginTop: 8,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '700',
     color: '#374151',
-    marginBottom: 20,
+    marginBottom: 16,
     textAlign: 'center',
   },
   circularProgressGrid: {
@@ -494,95 +491,101 @@ const styles = StyleSheet.create({
   },
   circularProgressWrapper: {
     position: 'relative',
-    marginBottom: 8,
-  },
-  circularProgressCenter: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  circularProgressCenter: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   circularProgressLabel: {
-    fontSize: 12,
+    marginTop: 8,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#6B7280',
-    marginTop: 4,
-    textAlign: 'center',
+    color: '#374151',
   },
   circularProgressValue: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#1F2937',
-    marginTop: 2,
+    fontWeight: '700',
+    color: '#111827',
   },
   circularProgressAmount: {
     fontSize: 12,
-    color: '#9CA3AF',
-    marginTop: 2,
+    color: '#6B7280',
   },
-  modalContainer: { 
-    flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    backgroundColor: 'rgba(0,0,0,0.6)',
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(17, 24, 39, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  modalContent: { 
-    width: '90%', 
-    maxHeight: '80%',
-    backgroundColor: 'white', 
-    borderRadius: 16, 
+  modalContent: {
+    width: width * 0.9,
+    maxHeight: '85%',
+    backgroundColor: 'white',
+    borderRadius: 16,
     padding: 20,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.2,
     shadowRadius: 12,
-    elevation: 10,
+    elevation: 12,
   },
   modalHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
+    marginBottom: 16,
   },
-  modalTitle: { 
-    fontSize: 20, 
-    fontWeight: 'bold', 
-    color: '#1F2937',
-    flex: 1,
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#1E3A8A',
   },
   closeIconButton: {
+    backgroundColor: '#F3F4F6',
+    borderRadius: 8,
     padding: 4,
   },
   sectorOverview: {
-    backgroundColor: '#F8FAFC',
+    backgroundColor: '#F9FAFB',
     borderRadius: 12,
     padding: 16,
-    marginBottom: 20,
+    marginBottom: 16,
   },
   sectorOverviewHeader: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   sectorOverviewInfo: {
-    marginLeft: 16,
-    flex: 1,
+    marginLeft: 12,
   },
   sectorOverviewName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#1F2937',
-    marginBottom: 4,
-  },
-  sectorOverviewStats: {
     fontSize: 16,
     fontWeight: '600',
+    color: '#111827',
+  },
+  sectorOverviewStats: {
+    fontSize: 14,
     color: '#6B7280',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F3F4F6',
+    borderRadius: 8,
+    marginBottom: 12,
+    paddingHorizontal: 12,
+  },
+  searchIcon: {
+    marginRight: 8,
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+    fontSize: 14,
+    color: '#111827',
   },
   subsectorTitle: {
     fontSize: 16,
@@ -590,98 +593,58 @@ const styles = StyleSheet.create({
     color: '#374151',
     marginBottom: 12,
   },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F3F4F6',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    marginBottom: 20,
-  },
-  searchIcon: {
-    marginRight: 12,
-  },
-  searchInput: {
-    flex: 1,
-    paddingVertical: 12,
-    fontSize: 16,
-    color: '#374151',
-  },
   modalList: {
-    paddingBottom: 20,
+    paddingBottom: 24,
   },
   subSectorCard: {
+    flex: 1,
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
   },
   subSectorHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 8,
   },
-  subSectorInfo: { 
-    marginLeft: 16,
-    flex: 1,
+  subSectorInfo: {
+    marginLeft: 10,
   },
-  subSectorName: { 
-    fontSize: 16, 
-    color: 'white', 
-    fontWeight: 'bold',
-    marginBottom: 4,
+  subSectorName: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '700',
   },
-  subSectorPercentage: { 
-    fontSize: 14, 
-    fontWeight: '600', 
-    color: 'rgba(255, 255, 255, 0.8)',
+  subSectorPercentage: {
+    color: 'white',
+    fontSize: 13,
+    opacity: 0.9,
   },
   subSectorDescription: {
-    fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.9)',
+    color: 'white',
+    opacity: 0.85,
+    fontSize: 13,
+    lineHeight: 18,
     marginBottom: 8,
-    lineHeight: 20,
   },
   subSectorValue: {
     alignItems: 'flex-end',
   },
   subSectorAmount: {
-    fontSize: 18,
-    fontWeight: 'bold',
     color: 'white',
-  },
-  closeButton: { 
-    marginTop: 20, 
-    padding: 16, 
-    backgroundColor: '#1E3A8A', 
-    borderRadius: 12, 
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  closeButtonText: { 
-    color: 'white', 
-    fontSize: 16, 
+    fontSize: 13,
     fontWeight: '700',
   },
-  footer: { 
-    alignItems: 'center', 
-    paddingTop: 20, 
-    borderTopWidth: 1, 
-    borderTopColor: '#E5E7EB',
-    marginTop: 24,
+  closeButton: {
+    backgroundColor: '#1E3A8A',
+    borderRadius: 8,
+    paddingVertical: 10,
+    alignItems: 'center',
+    marginTop: 16,
   },
-  footerText: { 
-    fontSize: 11, 
-    color: '#9CA3AF', 
-    textAlign: 'center', 
-    marginBottom: 4,
+  closeButtonText: {
+    color: 'white',
+    fontWeight: '600',
+    fontSize: 15,
   },
 });
