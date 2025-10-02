@@ -1,13 +1,9 @@
+// src/components/Navbar.tsx
 import React, { useState, useEffect } from 'react';
-import { 
-  Menu, 
-  X, 
-  User,
-  Phone,
-  Mail,
-  Users
-} from 'lucide-react';
+import { Menu, X, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import Logo from '../../assets/logo.png'
+
 
 type NavLink = {
   name: string;
@@ -20,23 +16,23 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
 
   const links: NavLink[] = [
-    { name: 'Home', path: "/" },
-    { name: 'About', path: "/about" },
-    { name: 'Features', path: "/features" },
-    { name: 'Services', path: "/solutions" },
-    { name: 'Blogs', path: "/blogs" },
-    { name: 'Jobs', path: "/jobs" },
-    { name: 'Contact', path: "/contact" },
+    { name: 'About Us', path: '/about' },
+    { name: 'Press', path: '/press' },
+    { name: 'Jobs', path: '/jobs' },
+    { name: 'Contact Us', path: '/contact' },
+    { name: 'Statistics', path: '/statistics' },
+    { name: 'Documents', path: '/documents' },
+    { name: 'Data Sources', path: '/data-sources' },
+    { name: 'Data Portals', path: '/data-portals' },
+    { name: 'Data Revolution', path: '/data-revolution' },
   ];
 
-  // Handle navigation
   const handleNavigate = (path?: string) => {
     setIsOpen(false);
     if (!path) return;
     navigate(path);
   };
 
-  // Scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
@@ -47,25 +43,21 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      {/* Top bar */}
-      <div className="bg-gray-900 text-white py-2 px-4 text-sm hidden lg:block">
+      {/* Top Bar */}
+      <div className="bg-primary-900 text-white py-2 px-4 text-sm hidden lg:block">
         <div className="w-11/12 mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-2">
-              <Phone size={14} />
-              <span>+250 123 456 789</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Mail size={14} />
-              <span>info@abyhr.com</span>
+              <Search size={14} />
+              <span>Search Statistics</span>
             </div>
           </div>
-          <div>Streamlining HR Operations Across Rwanda</div>
+          <div>National Institute of Statistics of Rwanda</div>
         </div>
       </div>
 
       {/* Main Navigation */}
-      <nav 
+      <nav
         className={`bg-white shadow-lg sticky top-0 z-50 transition-all duration-300 ${
           scrolled ? 'shadow-xl bg-white/95 backdrop-blur-sm' : 'shadow-lg'
         }`}
@@ -75,15 +67,10 @@ const Navbar: React.FC = () => {
             {/* Logo */}
             <div className="flex-shrink-0 cursor-pointer" onClick={() => handleNavigate('/')}>
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-lg flex items-center justify-center shadow-lg">
-                  <Users className="text-white" size={20} />
+                <div className=" h-16  rounded-lg flex items-center justify-center ">
+                  <img src={Logo} alt="NISR Logo" className="w-full h-full" />
                 </div>
-                <div>
-                  <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
-                    ABY HR Management
-                  </h1>
-                  <p className="text-xs text-gray-500 -mt-1">Complete HR Solutions</p>
-                </div>
+                
               </div>
             </div>
 
@@ -108,13 +95,13 @@ const Navbar: React.FC = () => {
             <div className="hidden md:flex items-center space-x-4">
               <button
                 className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-6 py-2 rounded-lg hover:from-primary-700 hover:to-primary-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 font-medium"
-                onClick={() => handleNavigate('/contact')}
+                onClick={() => handleNavigate('/data-portals')}
               >
-                Get in Touch
+                Access Data
               </button>
             </div>
 
-            {/* Mobile menu button */}
+            {/* Mobile Menu Button */}
             <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -127,9 +114,11 @@ const Navbar: React.FC = () => {
         </div>
 
         {/* Mobile Navigation */}
-        <div className={`md:hidden transition-all duration-300 ease-in-out ${
-          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-        } overflow-hidden bg-white border-t border-gray-100`}>
+        <div
+          className={`md:hidden transition-all duration-300 ease-in-out ${
+            isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          } overflow-hidden bg-white border-t border-gray-100`}
+        >
           <div className="px-4 py-6 space-y-3">
             {links.map((item, index) => (
               <button
@@ -140,14 +129,12 @@ const Navbar: React.FC = () => {
                 {item.name}
               </button>
             ))}
-            
-            {/* Mobile Action Buttons */}
             <div className="pt-4 border-t border-gray-100 space-y-3">
               <button
                 className="w-full bg-gradient-to-r from-primary-600 to-primary-700 text-white py-3 rounded-lg hover:from-primary-700 hover:to-primary-800 transition-all duration-300 shadow-lg font-medium"
-                onClick={() => handleNavigate('/contact')}
+                onClick={() => handleNavigate('/data-portals')}
               >
-                Get in Touch
+                Access Data
               </button>
             </div>
           </div>

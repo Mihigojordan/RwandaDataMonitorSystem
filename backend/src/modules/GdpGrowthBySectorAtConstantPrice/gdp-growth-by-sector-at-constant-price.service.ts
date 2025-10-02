@@ -71,7 +71,7 @@ export class GdpGrowthBySectorAtConstantPriceService {
           servicesShare: data.servicesShare,
           industryShare: data.industryShare,
           agricultureShare: data.agricultureShare,
-          taxesShare: data.taxesShare,
+          taxesShare: 8,
           servicesSubShares: data.servicesSubShares || {},
           agricultureSubShares: this.mapFixedSubShares('agriculture'),
           industrySubShares: this.mapFixedSubShares('industry'),

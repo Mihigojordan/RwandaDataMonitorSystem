@@ -27,9 +27,10 @@ import ApplicantView from '../components/dashboard/recruitment/ApplicantView';
 import ClientManagement from '../pages/dashboard/ClientManagement';
 import NationalFiguresDashboard from '../pages/dashboard/National_Figures';
 import Nopevertymanagement from '../pages/dashboard/Nopevertymanagement';
-import GDPDashboard from '../pages/dashboard/gdpcurrentprice';
-import GDPFiguresDashboard from '../pages/dashboard/gdpcurrentprice';
+// import GDPDashboard from '../pages/dashboard/Gdpcurrentprice';
+import GDPFiguresDashboard from '../pages/dashboard/Gdpcurrentprice';
 import GDPSharesData from '../pages/dashboard/GDPSharesData';
+import GdpGrowthBySectorDashboard from '../pages/dashboard/GdpGrowthBySectorDashboard';
 
 const ProductPage = lazy(() => import('../pages/landing/FeaturesPage'));
 const ServicesPage = lazy(() => import('../pages/landing/ServicePage'));
@@ -206,6 +207,14 @@ const routes = createBrowserRouter([
                 element: (
                   <SuspenseWrapper>
                    <GDPFiguresDashboard />
+                  </SuspenseWrapper>
+                ),
+              },
+              {
+                path: 'gdp-growth-by-sector',
+                element: (
+                  <SuspenseWrapper>
+                   <GdpGrowthBySectorDashboard />
                   </SuspenseWrapper>
                 ),
               },
