@@ -59,7 +59,9 @@ export class GdpGrowthBySectorAtConstantPriceService {
       );
     }
 
-    // Validate sub-sectors (only services can vary in percentage)
+    console.log(data);
+    
+    
     this.validateSubSectors('services', data.servicesSubShares);
     this.validateSubSectors('agriculture', data.agricultureSubShares, false);
     this.validateSubSectors('industry', data.industrySubShares, false);
@@ -71,10 +73,10 @@ export class GdpGrowthBySectorAtConstantPriceService {
           servicesShare: data.servicesShare,
           industryShare: data.industryShare,
           agricultureShare: data.agricultureShare,
-          taxesShare: 8,
+          taxesShare: data.taxesShare,
           servicesSubShares: data.servicesSubShares || {},
-          agricultureSubShares: this.mapFixedSubShares('agriculture'),
-          industrySubShares: this.mapFixedSubShares('industry'),
+          agricultureSubShares: data.agricultureSubShares || {},
+          industrySubShares:data.industrySubShares || {},
         },
       });
     } catch (error) {
@@ -145,10 +147,10 @@ export class GdpGrowthBySectorAtConstantPriceService {
       }
     }
 
-    // Validate services sub-sectors only (others are fixed)
     if (data.servicesSubShares) {
       this.validateSubSectors('services', data.servicesSubShares);
     }
+
 
     try {
       return await this.prisma.gdpGrowthBySectorAtConstantPrice.update({

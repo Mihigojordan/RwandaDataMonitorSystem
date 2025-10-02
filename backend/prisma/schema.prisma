@@ -92,5 +92,8 @@ model GdpGrowthBySectorAtConstantPrice {
   servicesSubShares    Json
   agricultureSubShares Json
   industrySubShares    Json
+    createdAt        DateTime @default(now())
+ updatedAt DateTime?
+
 }
 

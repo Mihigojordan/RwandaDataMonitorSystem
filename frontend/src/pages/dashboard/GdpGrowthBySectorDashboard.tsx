@@ -14,14 +14,20 @@ import {
   Trash2,
   X,
   Save,
-  PieChart,
   ShoppingCart,
   Bus,
   Building2,
   Wallet,
   Utensils,
+  Stethoscope,
   School,
-  StethoscopeIcon,
+  Wheat,
+  Truck,
+  Leaf,
+  Factory,
+  Hammer,
+  Sandwich,
+  Shirt,
   Eye,
 } from "lucide-react";
 import gdpGrowthService, {
@@ -52,10 +58,10 @@ const serviceSubCategories: SubCategory[] = [
 ];
 
 const agricultureSubCategories: SubCategory[] = [
-  { name: "Livestock Products", percentage: 8, color: "#10B981", icon: "cow", description: "Cattle, poultry, and dairy production" },
-  { name: "Export Crops", percentage: 3, color: "#047857", icon: "local-shipping", description: "Coffee, tea, and other export crops" },
-  { name: "Forestry", percentage: 6, color: "#059669", icon: "tree", description: "Forest products and timber" },
-  { name: "Food Crops", percentage: 4, color: "#065F46", icon: "grain", description: "Staple food crop production" },
+  { name: "Livestock Products", percentage: 8, color: "#10B981", icon: "wheat", description: "Cattle, poultry, and dairy production" },
+  { name: "Export Crops", percentage: 3, color: "#047857", icon: "truck", description: "Coffee, tea, and other export crops" },
+  { name: "Forestry", percentage: 6, color: "#059669", icon: "leaf", description: "Forest products and timber" },
+  { name: "Food Crops", percentage: 4, color: "#065F46", icon: "wheat", description: "Staple food crop production" },
 ];
 
 const industrySubCategories: SubCategory[] = [
@@ -85,7 +91,7 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
     servicesShare: 0,
     industryShare: 0,
     agricultureShare: 0,
-    taxesShare: 8, // Default to backend's fixed taxesShare
+    taxesShare: 0,
     servicesSubShares: {},
     agricultureSubShares: {},
     industrySubShares: {},
@@ -109,25 +115,15 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
     }
   }, []);
 
-  const debouncedSearch = useMemo(
-    () =>
-      debounce(async (term: string) => {
-        try {
-          const result = await gdpGrowthService.getRecordById(term);
-          return result ? [result] : [];
-        } catch (err: any) {
-          setError(err.message || "Failed to search GDP data");
-          return [];
-        }
-      }, 300),
-    []
-  );
-
-  const handleFilterAndSort = useCallback(async () => {
+  const handleFilterAndSort = useCallback(() => {
     let filtered = [...allFigures];
 
     if (searchTerm.trim()) {
-      filtered = await debouncedSearch(searchTerm);
+      const term = searchTerm.toLowerCase();
+      filtered = filtered.filter((fig) =>
+        fig.totalGdp.toString().includes(term)
+        
+      );
     }
 
     filtered.sort((a, b) => {
@@ -140,7 +136,7 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
 
     setFigures(filtered);
     setCurrentPage(1);
-  }, [searchTerm, sortBy, sortOrder, allFigures, debouncedSearch]);
+  }, [searchTerm, sortBy, sortOrder, allFigures]);
 
   useEffect(() => {
     loadFigures();
@@ -161,21 +157,22 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
         industryShare: figure.industryShare,
         agricultureShare: figure.agricultureShare,
         taxesShare: figure.taxesShare,
-        servicesSubShares: figure.servicesSubShares,
-        agricultureSubShares: figure.agricultureSubShares,
-        industrySubShares: figure.industrySubShares,
+        servicesSubShares: figure.servicesSubShares || {},
+        agricultureSubShares: figure.agricultureSubShares || {},
+        industrySubShares: figure.industrySubShares || {},
       });
     } else if (mode === "view" && figure) {
       setSelectedFigure(figure);
+      console.log(figure);
       setFormData({
         totalGdp: figure.totalGdp,
         servicesShare: figure.servicesShare,
         industryShare: figure.industryShare,
         agricultureShare: figure.agricultureShare,
         taxesShare: figure.taxesShare,
-        servicesSubShares: figure.servicesSubShares,
-        agricultureSubShares: figure.agricultureSubShares,
-        industrySubShares: figure.industrySubShares,
+        servicesSubShares: figure.servicesSubShares || {},
+        agricultureSubShares: figure.agricultureSubShares || {},
+        industrySubShares: figure.industrySubShares || {},
       });
     } else {
       setSelectedFigure(null);
@@ -184,7 +181,7 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
         servicesShare: 0,
         industryShare: 0,
         agricultureShare: 0,
-        taxesShare: 8,
+        taxesShare: 0,
         servicesSubShares: {},
         agricultureSubShares: {},
         industrySubShares: {},
@@ -202,7 +199,7 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
         servicesShare: 0,
         industryShare: 0,
         agricultureShare: 0,
-        taxesShare: 8,
+        taxesShare: 0,
         servicesSubShares: {},
         agricultureSubShares: {},
         industrySubShares: {},
@@ -223,13 +220,31 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
       errors.push("Sectoral shares (Services, Industry, Agriculture, Taxes) must sum to 100%");
     }
 
-    // Validate services sub-sectors
+    // Validate sub-sectors
     Object.keys(data.servicesSubShares).forEach((key) => {
       if (!serviceSubCategories.map((sub) => sub.name).includes(key)) {
         errors.push(`Invalid services sub-sector: ${key}`);
       }
       if (data.servicesSubShares[key] < 0) {
         errors.push(`Services sub-sector ${key} percentage must be non-negative`);
+      }
+    });
+
+    Object.keys(data.agricultureSubShares).forEach((key) => {
+      if (!agricultureSubCategories.map((sub) => sub.name).includes(key)) {
+        errors.push(`Invalid agriculture sub-sector: ${key}`);
+      }
+      if (data.agricultureSubShares[key] < 0) {
+        errors.push(`Agriculture sub-sector ${key} percentage must be non-negative`);
+      }
+    });
+
+    Object.keys(data.industrySubShares).forEach((key) => {
+      if (!industrySubCategories.map((sub) => sub.name).includes(key)) {
+        errors.push(`Invalid industry sub-sector: ${key}`);
+      }
+      if (data.industrySubShares[key] < 0) {
+        errors.push(`Industry sub-sector ${key} percentage must be non-negative`);
       }
     });
 
@@ -300,16 +315,15 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
     "account-balance": Building2,
     "account-balance-wallet": Wallet,
     restaurant: Utensils,
-    "medical-services": StethoscopeIcon,
+    "medical-services": Stethoscope,
     school: School,
-    cow: PieChart, // Placeholder, as lucide-react doesn't have a cow icon
-    tree: PieChart, // Placeholder, as lucide-react doesn't have a tree icon
-    "local-shipping": PieChart,
-    grain: PieChart,
-    factory: PieChart,
-    construction: PieChart,
-    fastfood: PieChart,
-    "tshirt-crew": PieChart,
+    wheat: Wheat,
+    truck: Truck,
+    leaf: Leaf,
+    factory: Factory,
+    construction: Hammer,
+    fastfood: Sandwich,
+    "tshirt-crew": Shirt,
   };
 
   const formatDate = (date?: Date) =>
@@ -374,14 +388,14 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
                   </div>
                   <div className="space-y-2">
                     {serviceSubCategories.map((sub) => {
-                      const Icon = iconMap[sub.icon] || PieChart;
+                      const Icon = iconMap[sub.icon] || ShoppingCart;
                       return (
                         <div key={sub.name} className="flex items-center justify-between" title={sub.description}>
                           <div className="flex items-center space-x-2">
                             <Icon className="w-4 h-4" style={{ color: sub.color }} />
                             <span className="text-xs text-gray-700">{sub.name}</span>
                           </div>
-                          <span className="text-xs text-gray-900">{(formData.servicesSubShares[sub.name] || sub.percentage).toFixed(2)}%</span>
+                          <span className="text-xs text-gray-900">{(formData.servicesSubShares[sub.name] || 0).toFixed(2)}%</span>
                         </div>
                       );
                     })}
@@ -390,7 +404,7 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
                 {/* Agriculture Card */}
                 <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4">
                   <div className="flex items-center space-x-2 mb-2">
-                    <PieChart className="w-5 h-5 text-primary-600" />
+                    <Wheat className="w-5 h-5 text-primary-600" />
                     <h4 className="text-sm font-semibold text-gray-900">Agriculture ({formData.agricultureShare.toFixed(2)}%)</h4>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
@@ -398,14 +412,14 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
                   </div>
                   <div className="space-y-2">
                     {agricultureSubCategories.map((sub) => {
-                      const Icon = iconMap[sub.icon] || PieChart;
+                      const Icon = iconMap[sub.icon] || Wheat;
                       return (
                         <div key={sub.name} className="flex items-center justify-between" title={sub.description}>
                           <div className="flex items-center space-x-2">
                             <Icon className="w-4 h-4" style={{ color: sub.color }} />
                             <span className="text-xs text-gray-700">{sub.name}</span>
                           </div>
-                          <span className="text-xs text-gray-900">{(formData.agricultureSubShares[sub.name] || sub.percentage).toFixed(2)}%</span>
+                          <span className="text-xs text-gray-900">{(formData.agricultureSubShares[sub.name] || 0).toFixed(2)}%</span>
                         </div>
                       );
                     })}
@@ -414,7 +428,7 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
                 {/* Industry Card */}
                 <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4">
                   <div className="flex items-center space-x-2 mb-2">
-                    <PieChart className="w-5 h-5 text-primary-600" />
+                    <Factory className="w-5 h-5 text-primary-600" />
                     <h4 className="text-sm font-semibold text-gray-900">Industry ({formData.industryShare.toFixed(2)}%)</h4>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
@@ -422,14 +436,14 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
                   </div>
                   <div className="space-y-2">
                     {industrySubCategories.map((sub) => {
-                      const Icon = iconMap[sub.icon] || PieChart;
+                      const Icon = iconMap[sub.icon] || Factory;
                       return (
                         <div key={sub.name} className="flex items-center justify-between" title={sub.description}>
                           <div className="flex items-center space-x-2">
                             <Icon className="w-4 h-4" style={{ color: sub.color }} />
                             <span className="text-xs text-gray-700">{sub.name}</span>
                           </div>
-                          <span className="text-xs text-gray-900">{(formData.industrySubShares[sub.name] || sub.percentage).toFixed(2)}%</span>
+                          <span className="text-xs text-gray-900">{(formData.industrySubShares[sub.name] || 0).toFixed(2)}%</span>
                         </div>
                       );
                     })}
@@ -566,7 +580,7 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
                 </div>
                 <div className="space-y-2">
                   {serviceSubCategories.map((sub) => {
-                    const Icon = iconMap[sub.icon] || PieChart;
+                    const Icon = iconMap[sub.icon] || ShoppingCart;
                     return (
                       <div key={sub.name} className="flex items-center justify-between gap-2" title={sub.description}>
                         <div className="flex items-center space-x-2">
@@ -599,7 +613,7 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
               {/* Agriculture Card */}
               <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4">
                 <div className="flex items-center space-x-2 mb-2">
-                  <PieChart className="w-5 h-5 text-primary-600" />
+                  <Wheat className="w-5 h-5 text-primary-600" />
                   <h4 className="text-sm font-semibold text-gray-900">Agriculture ({formData.agricultureShare.toFixed(2)}%)</h4>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
@@ -607,14 +621,31 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
                 </div>
                 <div className="space-y-2">
                   {agricultureSubCategories.map((sub) => {
-                    const Icon = iconMap[sub.icon] || PieChart;
+                    const Icon = iconMap[sub.icon] || Wheat;
                     return (
                       <div key={sub.name} className="flex items-center justify-between gap-2" title={sub.description}>
                         <div className="flex items-center space-x-2">
                           <Icon className="w-4 h-4" style={{ color: sub.color }} />
                           <span className="text-xs text-gray-700">{sub.name}</span>
                         </div>
-                        <span className="text-xs text-gray-900">{sub.percentage.toFixed(2)}% (Fixed)</span>
+                        <input
+                          type="number"
+                          value={formData.agricultureSubShares[sub.name] || ""}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              agricultureSubShares: {
+                                ...formData.agricultureSubShares,
+                                [sub.name]: Number(e.target.value),
+                              },
+                            })
+                          }
+                          className="w-20 px-2 py-1 border border-gray-300 rounded-md text-xs focus:outline-none focus:ring-2 focus:ring-primary-500"
+                          placeholder="%"
+                          min="0"
+                          max="100"
+                          step="0.1"
+                        />
                       </div>
                     );
                   })}
@@ -623,7 +654,7 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
               {/* Industry Card */}
               <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4">
                 <div className="flex items-center space-x-2 mb-2">
-                  <PieChart className="w-5 h-5 text-primary-600" />
+                  <Factory className="w-5 h-5 text-primary-600" />
                   <h4 className="text-sm font-semibold text-gray-900">Industry ({formData.industryShare.toFixed(2)}%)</h4>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
@@ -631,14 +662,31 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
                 </div>
                 <div className="space-y-2">
                   {industrySubCategories.map((sub) => {
-                    const Icon = iconMap[sub.icon] || PieChart;
+                    const Icon = iconMap[sub.icon] || Factory;
                     return (
                       <div key={sub.name} className="flex items-center justify-between gap-2" title={sub.description}>
                         <div className="flex items-center space-x-2">
                           <Icon className="w-4 h-4" style={{ color: sub.color }} />
                           <span className="text-xs text-gray-700">{sub.name}</span>
                         </div>
-                        <span className="text-xs text-gray-900">{sub.percentage.toFixed(2)}% (Fixed)</span>
+                        <input
+                          type="number"
+                          value={formData.industrySubShares[sub.name] || ""}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              industrySubShares: {
+                                ...formData.industrySubShares,
+                                [sub.name]: Number(e.target.value),
+                              },
+                            })
+                          }
+                          className="w-20 px-2 py-1 border border-gray-300 rounded-md text-xs focus:outline-none focus:ring-2 focus:ring-primary-500"
+                          placeholder="%"
+                          min="0"
+                          max="100"
+                          step="0.1"
+                        />
                       </div>
                     );
                   })}
@@ -712,7 +760,7 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
               <th className="text-left py-2 px-2 text-gray-600 font-medium">#</th>
-
+             
               <th
                 className="text-left py-2 px-2 cursor-pointer"
                 onClick={() => {
@@ -790,7 +838,7 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
             {currentFigures.map((fig, index) => (
               <tr key={fig.id || index} className="hover:bg-gray-25">
                 <td className="py-2 px-2">{(currentPage - 1) * itemsPerPage + index + 1}</td>
-                
+              
                 <td className="py-2 px-2 text-gray-700">{fig.totalGdp.toFixed(2)}</td>
                 <td className="py-2 px-2 text-gray-700">{fig.servicesShare.toFixed(2)}%</td>
                 <td className="py-2 px-2 text-gray-700">{fig.industryShare.toFixed(2)}%</td>
@@ -817,7 +865,7 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
           </div>
           <div className="flex items-center space-x-2 mb-2">
             <div className="p-2 bg-primary-100 rounded-full">
-              <PieChart className="w-4 h-4 text-primary-600" />
+              <ShoppingCart className="w-4 h-4 text-primary-600" />
             </div>
            
           </div>
@@ -931,7 +979,7 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
             <Search className="w-3 h-3 text-gray-400 absolute left-2 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search by ID..."
+              placeholder="Search by  Total GDP..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-7 pr-3 py-1.5 border border-gray-200 rounded text-xs"
@@ -950,8 +998,7 @@ const GdpGrowthBySectorDashboard: React.FC = () => {
               }}
               className="border border-gray-200 rounded px-2 py-1.5 text-xs"
             >
-              <option value="id-asc">ID (A–Z)</option>
-              <option value="id-desc">ID (Z–A)</option>
+          
               <option value="totalGdp-desc">Highest Total GDP</option>
               <option value="totalGdp-asc">Lowest Total GDP</option>
               <option value="servicesShare-desc">Highest Services Share</option>
