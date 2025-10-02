@@ -428,9 +428,9 @@ const styles = StyleSheet.create({
   
   // Cards Section
   cardsSection: {
-    paddingHorizontal: 20,
-    paddingTop: 30,
-    paddingBottom: 20,
+    paddingHorizontal: 10,
+    paddingTop: 15,
+    paddingBottom: 10,
   },
   sectionTitle: {
     fontSize: 24,
@@ -440,10 +440,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   cardsContainer: {
-    gap: 20,
+    gap: 10,
   },
   card: {
-    borderRadius: 20,
+    borderRadius: 10,
     elevation: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 6 },
@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
   cardGradient: {
     borderRadius: 20,
     padding: 25,
-    minHeight: 150,
+    minHeight: 180,
     flexDirection: 'row',
     alignItems: 'center',
     position: 'relative',
@@ -464,8 +464,8 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   iconContainer: {
-    width: 60,
-    height: 60,
+    width: 80,
+    height: 80,
     borderRadius: 30,
     backgroundColor: 'rgba(255,255,255,0.2)',
     justifyContent: 'center',
@@ -474,7 +474,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.3)',
   },
   iconText: {
-    fontSize: 28,
+    fontSize: 40,
   },
   statisticsIcon: {
     flexDirection: 'row',
@@ -501,13 +501,13 @@ const styles = StyleSheet.create({
     height: 20,
   },
   sdgIcon: {
-    width: 40,
-    height: 40,
+    width: 80,
+    height: 80,
   },
   cardTitle: {
     flex: 1,
     color: 'white',
-    fontSize: 18,
+    fontSize: 25,
     fontWeight: '700',
     textAlign: 'left',
     lineHeight: 24,

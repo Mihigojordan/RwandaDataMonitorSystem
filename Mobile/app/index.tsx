@@ -79,7 +79,7 @@ export default function SplashScreen() {
           style={{ opacity: logoOpacity, transform: [{ scale: logoScale }], zIndex: 10 }}
         >
           <Image
-            source={require("../Assets/Images/Logo.png")}
+            source={require("../Assets/Images/logo1.png")}
             style={styles.logo}
             resizeMode="contain"
           />
@@ -128,8 +128,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
   },
   logo: {
-    width: 200,
-    height: 160,
+    width: 300,
+    height: 200,
     marginBottom: 10,
     marginTop: -100,
     borderRadius: 10,
